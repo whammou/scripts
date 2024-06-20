@@ -1,0 +1,16 @@
+#!/bin/bash
+
+bat0_lvl=$(acpi -b | grep -P -o '[0-9]+(?=%)' | sed -n 1p)
+if [[ $bat0_lvl -le 10 ]]; then
+    notify-send "Internal Battery Low" "Level: ${bat0_lvl}%" -i " " -u critical
+elif [[ $bat0_lvl -ge 80 ]]; then
+    notify-send "Internal Battery Full" "Level: ${bat0_lvl}%" -i " "
+fi
+
+bat1_lvl=$(acpi -b | grep -P -o '[0-9]+(?=%)' | sed -n 2p)
+if [[ $bat1_lvl -le 10 ]] && [[ $bat1_lvl -ge 5 ]] then
+    notify-send "External Battery Low" "Level: ${bat1_lvl}%" -i " " -u critical
+elif [[ $bat1_lvl -ge 80 ]]; then
+    notify-send "External Battery Full" "Level: ${bat1_lvl}%" -i " "
+fi
+

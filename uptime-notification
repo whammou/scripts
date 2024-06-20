@@ -1,0 +1,4 @@
+upTime=$(uptime | cut -d\  -f5 | tr -d ',')
+hour=$(echo $upTime | cut -d: -f1)
+minute=$(echo $upTime | cut -d: -f2)
+notify-send "Device Uptime" "Device has been up for $hour hour(s) $minute minute(s)" -i " "

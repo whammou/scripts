@@ -1,0 +1,7 @@
+DeviceName=TPPS\/2\ IBM\ TrackPoint
+DeviceState=$(xinput --list-props "$DeviceName" | grep "Device Enabled" | cut -d: -f2)
+if [ $DeviceState -eq 1 ]; then
+	xinput disable "$DeviceName"
+else
+	xinput enable "$DeviceName"
+fi
