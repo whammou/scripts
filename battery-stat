@@ -1,16 +1,21 @@
 #!/bin/bash
 
-bat0_lvl=$(acpi -b | grep -P -o '[0-9]+(?=%)' | sed -n 1p)
-if [[ $bat0_lvl -le 10 ]]; then
-    notify-send "Internal Battery Low" "Level: ${bat0_lvl}%" -i " " -u critical
-elif [[ $bat0_lvl -ge 80 ]]; then
-    notify-send "Internal Battery Full" "Level: ${bat0_lvl}%" -i " "
+bat_level=$(acpi -b | grep -P -o '[0-9]+(?=%)')
+bat_state=$(acpi -b| grep -P -o '[A-z]+(?=,)')
+
+level0=$(echo "$bat_level" | sed -n 1p)
+state0=$(echo "$bat_state" | sed -n 1p)
+if [[ $level0 -le 10 ]] && [[ $state0 != "Discharging" ]]; then
+    notify-send "Internal Battery Low" "Level: ${level0}%" -i " " -u critical
+elif [[ $level0 -ge 80 ]]; then
+    notify-send "Internal Battery Full" "Level: ${level0}%" -i " "
 fi
 
-bat1_lvl=$(acpi -b | grep -P -o '[0-9]+(?=%)' | sed -n 2p)
-if [[ $bat1_lvl -le 10 ]] && [[ $bat1_lvl -ge 5 ]] then
-    notify-send "External Battery Low" "Level: ${bat1_lvl}%" -i " " -u critical
-elif [[ $bat1_lvl -ge 80 ]]; then
-    notify-send "External Battery Full" "Level: ${bat1_lvl}%" -i " "
+level1=$(echo "$bat_level" | sed -n 2p)
+state1=$(echo "$bat_state" | sed -n 2p)
+if [[ $level1 -le 10 ]] && [[ $state1 == "Discharging" ]]  then
+    notify-send "External Battery Low" "Level: ${level1}%" -i " " -u critical
+elif [[ $level1 -ge 80 ]]; then
+    notify-send "External Battery Full" "Level: ${level1}%" -i " "
 fi
 
