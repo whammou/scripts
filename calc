@@ -1,4 +1,4 @@
-import numpy as np
-import pylab as pyl
+from numpy import *
+import pylab as plot
 
-pyl.style.use ('dark_background')
+plot.style.use ('dark_background')
