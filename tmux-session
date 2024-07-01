@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+for session in {1..3}; do
+    tmux new -d -s $session
+    echo sessions" $session" created
+done
